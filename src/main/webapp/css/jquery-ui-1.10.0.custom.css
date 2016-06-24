@@ -7,8 +7,9 @@
 /* Layout helpers
 ----------------------------------*/
 .ui-helper-hidden {
-	display: none;
+	display: none;       
 }
+
 .ui-helper-hidden-accessible {
 	border: 0;
 	clip: rect(0 0 0 0);
