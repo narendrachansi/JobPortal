@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Create New Jobseeker</title>
+        <link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.10.0.custom.css" />
+    </h:head>
+    <h:body>
+
+        <h:form>        
+            <h:outputLabel value="FirstName" />
+            <h:inputText value="#{JobseekerController.jobseeker.firstname}" />
+            <h:outputLabel value="Email" />
+            <h:inputText value="#{JobseekerController.user.email}" />
+            <h:outputLabel value="Password" />
+            <h:inputSecret value="#{JobseekerController.user.password}"  />
+            <h:commandButton action="#{JobseekerController.addJobSeeker()}" value="Register Jobseeker" />
+           
+        </h:form>
+       
+    </h:body>
+</html>
+
