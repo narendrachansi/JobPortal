@@ -13,6 +13,7 @@
             <ul>
                
                 <li><h:outputText value="#{jobseeker.firstname}" /></li>
+                <li><h:outputText value="#{JobseekerController.showAddress(jobseeker.address)}" /></li>
                 <li><h:form><h:commandLink action="#{JobseekerController.editJobseeker(jobseeker)}" value="EDIT"></h:commandLink></h:form></li>
                 <li><h:form><h:commandLink action="#{JobseekerController.deleteJobseeker(jobseeker)}" value="Delete"></h:commandLink></h:form></li>
 

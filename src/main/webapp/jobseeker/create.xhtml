@@ -9,17 +9,39 @@
     </h:head>
     <h:body>
 
-        <h:form>        
+        <h:form enctype="multipart/form-data">        
             <h:outputLabel value="FirstName" />
             <h:inputText value="#{JobseekerController.jobseeker.firstname}" />
+            <h:outputLabel value="LastName" />
+            <h:inputText value="#{JobseekerController.jobseeker.lastname}" />
+            <h:outputLabel value="unit" />
+            <h:inputText binding="#{unit}"/>
+            <h:outputLabel value="Street" />
+            <h:inputText binding="#{street}"/>
+            <h:outputLabel value="Suburb" />
+            <h:inputText binding="#{suburb}"/>
+            <h:outputLabel value="State" />
+            <h:inputText binding="#{state}"/>
+            <h:outputLabel value="Country" />
+            <h:inputText binding="#{country}" />
+            <h:outputLabel value="phone" />
+            <h:inputText value="#{JobseekerController.jobseeker.phone}" />
+            <h:outputLabel value="dob" />
+            <h:inputText value="#{JobseekerController.jobseeker.dob}" />
+            <h:outputLabel value="qualification" />
+            <h:inputText value="#{JobseekerController.jobseeker.qualification}" />
+            <h:outputLabel value="Skills"/>
+            <h:inputTextarea value="#{JobseekerController.jobseeker.skills}" rows="15" cols="80" />
+            <h:outputLabel value="Upload CV"/>
+            <h:inputFile value="#{JobseekerController.uploadFile()}" />
             <h:outputLabel value="Email" />
             <h:inputText value="#{JobseekerController.user.email}" />
             <h:outputLabel value="Password" />
             <h:inputSecret value="#{JobseekerController.user.password}"  />
-            <h:commandButton action="#{JobseekerController.addJobSeeker()}" value="Register Jobseeker" />
-           
+            <h:commandButton action="#{JobseekerController.addJobSeeker(unit.value,street.value,suburb.value,state.value,country.value)}" value="Register Jobseeker" />
+
         </h:form>
-       
+
     </h:body>
 </html>
 

@@ -8,8 +8,10 @@ package controller;
 import ejb.JobseekerEJB;
 import entity.Jobseeker;
 import entity.Users;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -28,7 +30,7 @@ public class JobseekerController {
     @Inject
     private JobseekerEJB jobseekerEJB;
     private Jobseeker jobseeker = new Jobseeker();
-  
+
     private Users user = new Users();
 
     public JobseekerController() {
@@ -45,38 +47,63 @@ public class JobseekerController {
     public void setUser(Users user) {
         this.user = user;
     }
-    
+
     public void setJobseeker(Jobseeker jobseeker) {
         this.jobseeker = jobseeker;
     }
-    /***
+
+    /**
+     * *
      * adding a job seeker informations
      */
-    public void addJobSeeker(){
-       jobseekerEJB.addJobseekerInfo(jobseeker,user);
+    public void addJobSeeker(String unit, String street, String suburb, String state, String country) {
+        jobseeker.setAddress(unit + "," + street + "," + suburb + "," + state + "," + country);
+        jobseekerEJB.addJobseekerInfo(jobseeker, user);
     }
-    /***
+
+    public String showAddress(String address) {
+        String addressinfo[] = new String[4];
+        for (int i = 0; i <= addressinfo.length; i++) {
+            addressinfo = address.split(",");
+        }
+        return addressinfo[0] + " " + addressinfo[1];
+
+    }
+
+    public void uploadFile() {
+    
+    
+    }
+
+    /**
+     * *
      * Editing job seeker informations
      */
-     public String editJobseeker(Jobseeker jobseeker){
+    public String editJobseeker(Jobseeker jobseeker) {
         //jobseekerEJB.editJobseeker(jobseeker);
         setJobseeker(jobseeker);
         return "edit.xhtml";
     }
-     /***
-      * persist updated jobseeker
-      * @return 
-      */
-    public String updateJobseeker(){
-        FacesContext fc= FacesContext.getCurrentInstance();
+
+    /**
+     * *
+     * persist updated jobseeker
+     *
+     * @return
+     */
+    public String updateJobseeker() {
+        FacesContext fc = FacesContext.getCurrentInstance();
         int id = Integer.parseInt(getIdParam(fc));
         jobseekerEJB.updateJobseeker(jobseeker, id);
         return "list.xhtml";
     }
-    /***
+
+    /**
+     * *
      * Get jobseeker id using <h:param> tag
+     *
      * @param fc
-     * @return 
+     * @return
      */
     public String getIdParam(FacesContext fc) {
 
@@ -84,13 +111,14 @@ public class JobseekerController {
         return params.get("id");
 
     }
-     
-     public List<Jobseeker> getAllJobseeker(){
-         return jobseekerEJB.getAllJobseeker();
-     }
-     public String deleteJobseeker(Jobseeker jobseeker){
-         setJobseeker(jobseeker);
-         jobseekerEJB.deleteJobseeker(jobseeker);
-         return "list";
-     }
+
+    public List<Jobseeker> getAllJobseeker() {
+        return jobseekerEJB.getAllJobseeker();
+    }
+
+    public String deleteJobseeker(Jobseeker jobseeker) {
+        setJobseeker(jobseeker);
+        jobseekerEJB.deleteJobseeker(jobseeker);
+        return "list";
+    }
 }
