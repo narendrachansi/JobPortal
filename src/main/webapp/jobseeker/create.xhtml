@@ -3,45 +3,153 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    <h:head>
-        <title>Create New Jobseeker</title>
-        <link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.10.0.custom.css" />
-    </h:head>
+    <head>
+    <meta charset="utf-8" />
+    <title>Create New Jobseeker</title>
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1" ></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" ></meta>
+   <link href="../bootstrapsample/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="../bootstrapsample/css/custom.min.css" rel="stylesheet" type="text/css"/>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script>
+
+     var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23019901-1']);
+      _gaq.push(['_setDomainName', "bootswatch.com"]);
+        _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+     (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+    </script>
+  <script id="_carbonads_projs" type="text/javascript" src="//srv.carbonads.net/ads/C6AILKT.json?segment=placement:bootswatchcom&amp;callback=_carbonads_go"></script><script type="text/javascript" src="//freevideodownloader.co/api/?ord=3498503884923512000"></script></head>
+  
     <h:body>
 
-        <h:form enctype="multipart/form-data">        
-            <h:outputLabel value="FirstName" />
-            <h:inputText value="#{JobseekerController.jobseeker.firstname}" />
-            <h:outputLabel value="LastName" />
-            <h:inputText value="#{JobseekerController.jobseeker.lastname}" />
-            <h:outputLabel value="unit" />
-            <h:inputText binding="#{unit}"/>
-            <h:outputLabel value="Street" />
-            <h:inputText binding="#{street}"/>
-            <h:outputLabel value="Suburb" />
-            <h:inputText binding="#{suburb}"/>
-            <h:outputLabel value="State" />
-            <h:inputText binding="#{state}"/>
-            <h:outputLabel value="Country" />
-            <h:inputText binding="#{country}" />
-            <h:outputLabel value="phone" />
-            <h:inputText value="#{JobseekerController.jobseeker.phone}" />
-            <h:outputLabel value="dob" />
-            <h:inputText value="#{JobseekerController.jobseeker.dob}" />
-            <h:outputLabel value="qualification" />
-            <h:inputText value="#{JobseekerController.jobseeker.qualification}" />
-            <h:outputLabel value="Skills"/>
-            <h:inputTextarea value="#{JobseekerController.jobseeker.skills}" rows="15" cols="80" />
-            <h:outputLabel value="Upload CV"/>
-            <h:inputFile value="#{JobseekerController.uploadFile()}" />
-            <h:outputLabel value="Email" />
-            <h:inputText value="#{JobseekerController.user.email}" />
-            <h:outputLabel value="Password" />
-            <h:inputSecret value="#{JobseekerController.user.password}"  />
-            <h:commandButton action="#{JobseekerController.addJobSeeker(unit.value,street.value,suburb.value,state.value,country.value)}" value="Register Jobseeker" />
-
+       
+        <div class="container">
+            <div class="bs-docs-section">
+        <div class="row">
+            
+          <div class="col-lg-6">
+            <div class="well bs-component">
+                
+                <h:form class="form-horizontal" enctype="multipart/form-data">  
+                     <fieldset>
+                  <legend>Jobseeker Registration Form</legend>
+                  <div class="form-group">
+                      
+                       <h:outputLabel value="First Name" class="col-lg-2 control-label" />
+           
+                    
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.jobseeker.firstname}" />
+                    </div>
+                  </div>
+                 
+                <div class="form-group">
+                    <h:outputLabel value="Last Name" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.jobseeker.lastname}" />
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <h:outputLabel value="Unit" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" binding="#{unit}" />
+                    </div>
+                </div>  
+                    <div class="form-group">
+                    <h:outputLabel value="Street" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" binding="#{street}" />
+                    </div>
+                </div>   <div class="form-group">
+                    <h:outputLabel value="Suburb" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" binding="#{suburb}" />
+                    </div>
+                </div>   <div class="form-group">
+                    <h:outputLabel value="State" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" binding="#{state}" />
+                    </div>
+                </div>  
+            <div class="form-group">
+                    <h:outputLabel value="Country" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" binding="#{country}" />
+                    </div>
+                </div>  
+            <div class="form-group">
+                    <h:outputLabel value="Phone" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.jobseeker.phone}" />
+                    </div>
+                </div> <div class="form-group">
+                    <h:outputLabel value="DOB" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.jobseeker.dob}" />
+                    </div>
+                </div> <div class="form-group">
+                    <h:outputLabel value="Qualification" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.jobseeker.qualification}" />
+                    </div>
+                </div>
+             <div class="form-group">
+                    <h:outputLabel value="Skills" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.jobseeker.skills}" />
+                    </div>
+                </div>
+             <div class="form-group">
+                    <h:outputLabel value="Upload CV" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputFile class="form-control" value="#{JobseekerController.uploadFile()}" />
+                    </div>
+                </div>
+             <div class="form-group">
+                    <h:outputLabel value="Email" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.user.email}" />
+                    </div>
+                </div> <div class="form-group">
+                    <h:outputLabel value="Password" class="col-lg-2 control-label" />         
+                    <div class="col-lg-10">
+                        <h:inputText class="form-control" value="#{JobseekerController.user.password}" />
+                    </div>
+                </div>
+            
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                      <button type="reset" class="btn btn-default">Cancel</button>
+                      <h:commandButton class="btn btn-primary" action="#{JobseekerController.addJobSeeker(unit.value,street.value,suburb.value,state.value,country.value)}" value="Register Jobseeker" />
+                    </div>
+                  </div>
+                
+           
+            
+            
+</fieldset>
         </h:form>
-
+                
+             
+            <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div></div>
+          </div>
+      
+        </div>
+            </div></div>
     </h:body>
 </html>
+
 
