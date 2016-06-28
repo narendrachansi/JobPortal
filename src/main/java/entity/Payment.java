@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -11,6 +12,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,14 +23,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "PAYMENT")
@@ -40,19 +42,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Payment.findByPaymenttype", query = "SELECT p FROM Payment p WHERE p.paymenttype = :paymenttype"),
     @NamedQuery(name = "Payment.findByTimestamp", query = "SELECT p FROM Payment p WHERE p.timestamp = :timestamp")})
 public class Payment implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "PAYMENTID")
     private Integer paymentid;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "AMOUNT")
     private Double amount;
     @Column(name = "ISPAID")
-    private Boolean ispaid;
-    @Size(max = 100)
+    private Short ispaid;
+    @Size(max = 255)
     @Column(name = "PAYMENTTYPE")
     private String paymenttype;
     @Column(name = "TIMESTAMP")
@@ -60,8 +61,8 @@ public class Payment implements Serializable {
     private Date timestamp;
     @JoinColumn(name = "JOBID", referencedColumnName = "JOBID")
     @ManyToOne
-    private Job jobid;
-    @OneToMany(mappedBy = "paymentid")
+    private Job job;
+    @OneToMany(mappedBy = "payment")
     private Collection<Invoice> invoiceCollection;
 
     public Payment() {
@@ -87,11 +88,11 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Boolean getIspaid() {
+    public Short getIspaid() {
         return ispaid;
     }
 
-    public void setIspaid(Boolean ispaid) {
+    public void setIspaid(Short ispaid) {
         this.ispaid = ispaid;
     }
 
@@ -111,12 +112,12 @@ public class Payment implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Job getJobid() {
-        return jobid;
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobid(Job jobid) {
-        this.jobid = jobid;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     @XmlTransient

@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -11,6 +12,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,13 +23,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "JOBAPPLICATION")
@@ -37,11 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Jobapplication.findByApplieddate", query = "SELECT j FROM Jobapplication j WHERE j.applieddate = :applieddate"),
     @NamedQuery(name = "Jobapplication.findByTimestamp", query = "SELECT j FROM Jobapplication j WHERE j.timestamp = :timestamp")})
 public class Jobapplication implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "JOBAPPLICATIONID")
     private Integer jobapplicationid;
     @Column(name = "APPLIEDDATE")
@@ -50,14 +51,14 @@ public class Jobapplication implements Serializable {
     @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
-    @OneToMany(mappedBy = "jobapplicationid")
+    @OneToMany(mappedBy = "jobapplication")
     private Collection<Document> documentCollection;
     @JoinColumn(name = "JOBSEEKERID", referencedColumnName = "JOBSEEKERID")
     @ManyToOne
-    private Jobseeker jobseekerid;
+    private Jobseeker jobseeker;
     @JoinColumn(name = "JOBID", referencedColumnName = "JOBID")
     @ManyToOne
-    private Job jobid;
+    private Job job;
 
     public Jobapplication() {
     }
@@ -99,20 +100,20 @@ public class Jobapplication implements Serializable {
         this.documentCollection = documentCollection;
     }
 
-    public Jobseeker getJobseekerid() {
-        return jobseekerid;
+    public Jobseeker getJobseeker() {
+        return jobseeker;
     }
 
-    public void setJobseekerid(Jobseeker jobseekerid) {
-        this.jobseekerid = jobseekerid;
+    public void setJobseeker(Jobseeker jobseeker) {
+        this.jobseeker = jobseeker;
     }
 
-    public Job getJobid() {
-        return jobid;
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobid(Job jobid) {
-        this.jobid = jobid;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     @Override

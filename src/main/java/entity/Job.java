@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -11,6 +12,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -21,14 +24,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "JOB")
@@ -36,58 +38,56 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Job.findAll", query = "SELECT j FROM Job j"),
     @NamedQuery(name = "Job.findByJobid", query = "SELECT j FROM Job j WHERE j.jobid = :jobid"),
-    @NamedQuery(name = "Job.findByTitle", query = "SELECT j FROM Job j WHERE j.title = :title"),
-    @NamedQuery(name = "Job.findByLocation", query = "SELECT j FROM Job j WHERE j.location = :location"),
-    @NamedQuery(name = "Job.findByJobsummary", query = "SELECT j FROM Job j WHERE j.jobsummary = :jobsummary"),
-    @NamedQuery(name = "Job.findByWorktype", query = "SELECT j FROM Job j WHERE j.worktype = :worktype"),
     @NamedQuery(name = "Job.findByExpirydate", query = "SELECT j FROM Job j WHERE j.expirydate = :expirydate"),
-    @NamedQuery(name = "Job.findBySalaryrange", query = "SELECT j FROM Job j WHERE j.salaryrange = :salaryrange"),
     @NamedQuery(name = "Job.findByIspublished", query = "SELECT j FROM Job j WHERE j.ispublished = :ispublished"),
-    @NamedQuery(name = "Job.findByTimestamp", query = "SELECT j FROM Job j WHERE j.timestamp = :timestamp")})
+    @NamedQuery(name = "Job.findByJobsummary", query = "SELECT j FROM Job j WHERE j.jobsummary = :jobsummary"),
+    @NamedQuery(name = "Job.findByLocation", query = "SELECT j FROM Job j WHERE j.location = :location"),
+    @NamedQuery(name = "Job.findBySalaryrange", query = "SELECT j FROM Job j WHERE j.salaryrange = :salaryrange"),
+    @NamedQuery(name = "Job.findByTimestamp", query = "SELECT j FROM Job j WHERE j.timestamp = :timestamp"),
+    @NamedQuery(name = "Job.findByTitle", query = "SELECT j FROM Job j WHERE j.title = :title"),
+    @NamedQuery(name = "Job.findByWorktype", query = "SELECT j FROM Job j WHERE j.worktype = :worktype")})
 public class Job implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "JOBID")
     private Integer jobid;
-    @Size(max = 250)
-    @Column(name = "TITLE")
-    private String title;
     @Lob
-    @Size(max = 32700)
     @Column(name = "DESCRIPTION")
     private String description;
-    @Size(max = 500)
-    @Column(name = "LOCATION")
-    private String location;
-    @Size(max = 500)
-    @Column(name = "JOBSUMMARY")
-    private String jobsummary;
-    @Size(max = 50)
-    @Column(name = "WORKTYPE")
-    private String worktype;
     @Column(name = "EXPIRYDATE")
     @Temporal(TemporalType.DATE)
     private Date expirydate;
-    @Size(max = 250)
+    @Column(name = "ISPUBLISHED")
+    private Short ispublished;
+    @Size(max = 255)
+    @Column(name = "JOBSUMMARY")
+    private String jobsummary;
+    @Size(max = 255)
+    @Column(name = "LOCATION")
+    private String location;
+    @Size(max = 255)
     @Column(name = "SALARYRANGE")
     private String salaryrange;
-    @Column(name = "ISPUBLISHED")
-    private Boolean ispublished;
     @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
-    @OneToMany(mappedBy = "jobid")
+    @Size(max = 255)
+    @Column(name = "TITLE")
+    private String title;
+    @Size(max = 255)
+    @Column(name = "WORKTYPE")
+    private String worktype;
+    @OneToMany(mappedBy = "job")
     private Collection<Payment> paymentCollection;
     @JoinColumn(name = "RECRUITERID", referencedColumnName = "RECRUITERID")
     @ManyToOne
-    private Recruiter recruiterid;
+    private Recruiter recruiter;
     @JoinColumn(name = "CATEGORYID", referencedColumnName = "CATEGORYID")
     @ManyToOne
-    private Category categoryid;
-    @OneToMany(mappedBy = "jobid")
+    private Category category;
+    @OneToMany(mappedBy = "job")
     private Collection<Jobapplication> jobapplicationCollection;
 
     public Job() {
@@ -105,44 +105,12 @@ public class Job implements Serializable {
         this.jobid = jobid;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getJobsummary() {
-        return jobsummary;
-    }
-
-    public void setJobsummary(String jobsummary) {
-        this.jobsummary = jobsummary;
-    }
-
-    public String getWorktype() {
-        return worktype;
-    }
-
-    public void setWorktype(String worktype) {
-        this.worktype = worktype;
     }
 
     public Date getExpirydate() {
@@ -153,6 +121,30 @@ public class Job implements Serializable {
         this.expirydate = expirydate;
     }
 
+    public Short getIspublished() {
+        return ispublished;
+    }
+
+    public void setIspublished(Short ispublished) {
+        this.ispublished = ispublished;
+    }
+
+    public String getJobsummary() {
+        return jobsummary;
+    }
+
+    public void setJobsummary(String jobsummary) {
+        this.jobsummary = jobsummary;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getSalaryrange() {
         return salaryrange;
     }
@@ -161,20 +153,28 @@ public class Job implements Serializable {
         this.salaryrange = salaryrange;
     }
 
-    public Boolean getIspublished() {
-        return ispublished;
-    }
-
-    public void setIspublished(Boolean ispublished) {
-        this.ispublished = ispublished;
-    }
-
     public Date getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getWorktype() {
+        return worktype;
+    }
+
+    public void setWorktype(String worktype) {
+        this.worktype = worktype;
     }
 
     @XmlTransient
@@ -186,20 +186,20 @@ public class Job implements Serializable {
         this.paymentCollection = paymentCollection;
     }
 
-    public Recruiter getRecruiterid() {
-        return recruiterid;
+    public Recruiter getRecruiter() {
+        return recruiter;
     }
 
-    public void setRecruiterid(Recruiter recruiterid) {
-        this.recruiterid = recruiterid;
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
     }
 
-    public Category getCategoryid() {
-        return categoryid;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryid(Category categoryid) {
-        this.categoryid = categoryid;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @XmlTransient

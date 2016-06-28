@@ -57,6 +57,7 @@ public class JobseekerController {
      * adding a job seeker informations
      */
     public void addJobSeeker(String unit, String street, String suburb, String state, String country) {
+        int i;
         jobseeker.setAddress(unit + "," + street + "," + suburb + "," + state + "," + country);
         jobseekerEJB.addJobseekerInfo(jobseeker, user);
     }

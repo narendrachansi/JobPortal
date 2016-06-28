@@ -27,7 +27,7 @@ public class JobseekerEJB {
     public void addJobseekerInfo(Jobseeker jobseeker,Users user){       
        em.persist(user);     
        // it sets the userid of persisted user into the jobseeker. Hence, maintains the referential integrity and transaction 
-       jobseeker.setUserid(user);
+       jobseeker.setUsers(user);
        em.persist(jobseeker);
     }
     
