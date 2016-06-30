@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -11,6 +12,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,14 +21,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "CATEGORY")
@@ -36,20 +38,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name"),
     @NamedQuery(name = "Category.findByTimestamp", query = "SELECT c FROM Category c WHERE c.timestamp = :timestamp")})
 public class Category implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CATEGORYID")
     private Integer categoryid;
-    @Size(max = 250)
+    @Size(max = 255)
     @Column(name = "NAME")
     private String name;
     @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
-    @OneToMany(mappedBy = "categoryid")
+    @OneToMany(mappedBy = "category")
     private Collection<Job> jobCollection;
 
     public Category() {

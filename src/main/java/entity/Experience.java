@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -10,6 +11,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,13 +21,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "EXPERIENCE")
@@ -32,48 +34,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Experience.findAll", query = "SELECT e FROM Experience e"),
     @NamedQuery(name = "Experience.findByExperienceid", query = "SELECT e FROM Experience e WHERE e.experienceid = :experienceid"),
-    @NamedQuery(name = "Experience.findByPostition", query = "SELECT e FROM Experience e WHERE e.postition = :postition"),
-    @NamedQuery(name = "Experience.findByCompany", query = "SELECT e FROM Experience e WHERE e.company = :company"),
     @NamedQuery(name = "Experience.findByCategory", query = "SELECT e FROM Experience e WHERE e.category = :category"),
-    @NamedQuery(name = "Experience.findByStartdate", query = "SELECT e FROM Experience e WHERE e.startdate = :startdate"),
+    @NamedQuery(name = "Experience.findByCompany", query = "SELECT e FROM Experience e WHERE e.company = :company"),
     @NamedQuery(name = "Experience.findByFinishdate", query = "SELECT e FROM Experience e WHERE e.finishdate = :finishdate"),
+    @NamedQuery(name = "Experience.findByPostition", query = "SELECT e FROM Experience e WHERE e.postition = :postition"),
+    @NamedQuery(name = "Experience.findByStartdate", query = "SELECT e FROM Experience e WHERE e.startdate = :startdate"),
     @NamedQuery(name = "Experience.findByStillinthisrole", query = "SELECT e FROM Experience e WHERE e.stillinthisrole = :stillinthisrole"),
-    @NamedQuery(name = "Experience.findByWorksummary", query = "SELECT e FROM Experience e WHERE e.worksummary = :worksummary"),
-    @NamedQuery(name = "Experience.findByTimestamp", query = "SELECT e FROM Experience e WHERE e.timestamp = :timestamp")})
+    @NamedQuery(name = "Experience.findByTimestamp", query = "SELECT e FROM Experience e WHERE e.timestamp = :timestamp"),
+    @NamedQuery(name = "Experience.findByWorksummary", query = "SELECT e FROM Experience e WHERE e.worksummary = :worksummary")})
 public class Experience implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "EXPERIENCEID")
     private Integer experienceid;
-    @Size(max = 250)
-    @Column(name = "POSTITION")
-    private String postition;
-    @Size(max = 250)
-    @Column(name = "COMPANY")
-    private String company;
-    @Size(max = 250)
+    @Size(max = 255)
     @Column(name = "CATEGORY")
     private String category;
-    @Column(name = "STARTDATE")
-    @Temporal(TemporalType.DATE)
-    private Date startdate;
+    @Size(max = 255)
+    @Column(name = "COMPANY")
+    private String company;
     @Column(name = "FINISHDATE")
     @Temporal(TemporalType.DATE)
     private Date finishdate;
+    @Size(max = 255)
+    @Column(name = "POSTITION")
+    private String postition;
+    @Column(name = "STARTDATE")
+    @Temporal(TemporalType.DATE)
+    private Date startdate;
     @Column(name = "STILLINTHISROLE")
-    private Boolean stillinthisrole;
-    @Size(max = 250)
-    @Column(name = "WORKSUMMARY")
-    private String worksummary;
+    private Short stillinthisrole;
     @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
+    @Size(max = 255)
+    @Column(name = "WORKSUMMARY")
+    private String worksummary;
     @JoinColumn(name = "JOBSEEKERID", referencedColumnName = "JOBSEEKERID")
     @ManyToOne
-    private Jobseeker jobseekerid;
+    private Jobseeker jobseeker;
 
     public Experience() {
     }
@@ -90,12 +91,12 @@ public class Experience implements Serializable {
         this.experienceid = experienceid;
     }
 
-    public String getPostition() {
-        return postition;
+    public String getCategory() {
+        return category;
     }
 
-    public void setPostition(String postition) {
-        this.postition = postition;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getCompany() {
@@ -106,12 +107,20 @@ public class Experience implements Serializable {
         this.company = company;
     }
 
-    public String getCategory() {
-        return category;
+    public Date getFinishdate() {
+        return finishdate;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setFinishdate(Date finishdate) {
+        this.finishdate = finishdate;
+    }
+
+    public String getPostition() {
+        return postition;
+    }
+
+    public void setPostition(String postition) {
+        this.postition = postition;
     }
 
     public Date getStartdate() {
@@ -122,28 +131,12 @@ public class Experience implements Serializable {
         this.startdate = startdate;
     }
 
-    public Date getFinishdate() {
-        return finishdate;
-    }
-
-    public void setFinishdate(Date finishdate) {
-        this.finishdate = finishdate;
-    }
-
-    public Boolean getStillinthisrole() {
+    public Short getStillinthisrole() {
         return stillinthisrole;
     }
 
-    public void setStillinthisrole(Boolean stillinthisrole) {
+    public void setStillinthisrole(Short stillinthisrole) {
         this.stillinthisrole = stillinthisrole;
-    }
-
-    public String getWorksummary() {
-        return worksummary;
-    }
-
-    public void setWorksummary(String worksummary) {
-        this.worksummary = worksummary;
     }
 
     public Date getTimestamp() {
@@ -154,12 +147,20 @@ public class Experience implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Jobseeker getJobseekerid() {
-        return jobseekerid;
+    public String getWorksummary() {
+        return worksummary;
     }
 
-    public void setJobseekerid(Jobseeker jobseekerid) {
-        this.jobseekerid = jobseekerid;
+    public void setWorksummary(String worksummary) {
+        this.worksummary = worksummary;
+    }
+
+    public Jobseeker getJobseeker() {
+        return jobseeker;
+    }
+
+    public void setJobseeker(Jobseeker jobseeker) {
+        this.jobseeker = jobseeker;
     }
 
     @Override

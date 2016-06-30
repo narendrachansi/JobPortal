@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -18,17 +19,17 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "USERS")
@@ -40,28 +41,28 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
     @NamedQuery(name = "Users.findByTimestamp", query = "SELECT u FROM Users u WHERE u.timestamp = :timestamp")})
 public class Users implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USERID")
     private Integer userid;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 250)
+    @Size(max = 255)
     @Column(name = "EMAIL")
     private String email;
-    @Size(max = 250)
+    @Size(max = 255)
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
+    private Recruiter recruiter;
+    @OneToMany(mappedBy = "users")
     private Collection<Usertype> usertypeCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid")
-    private Collection<Jobseeker> jobseekerCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
+    private Jobseeker jobseeker;
 
     public Users() {
     }
@@ -102,6 +103,14 @@ public class Users implements Serializable {
         this.timestamp = timestamp;
     }
 
+    public Recruiter getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
+    }
+
     @XmlTransient
     public Collection<Usertype> getUsertypeCollection() {
         return usertypeCollection;
@@ -111,13 +120,12 @@ public class Users implements Serializable {
         this.usertypeCollection = usertypeCollection;
     }
 
-    @XmlTransient
-    public Collection<Jobseeker> getJobseekerCollection() {
-        return jobseekerCollection;
+    public Jobseeker getJobseeker() {
+        return jobseeker;
     }
 
-    public void setJobseekerCollection(Collection<Jobseeker> jobseekerCollection) {
-        this.jobseekerCollection = jobseekerCollection;
+    public void setJobseeker(Jobseeker jobseeker) {
+        this.jobseeker = jobseeker;
     }
 
     @Override

@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "RECRUITER")
@@ -36,32 +38,34 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Recruiter.findAll", query = "SELECT r FROM Recruiter r"),
     @NamedQuery(name = "Recruiter.findByRecruiterid", query = "SELECT r FROM Recruiter r WHERE r.recruiterid = :recruiterid"),
     @NamedQuery(name = "Recruiter.findByFirstname", query = "SELECT r FROM Recruiter r WHERE r.firstname = :firstname"),
-    @NamedQuery(name = "Recruiter.findByLastname", query = "SELECT r FROM Recruiter r WHERE r.lastname = :lastname"),
     @NamedQuery(name = "Recruiter.findByIsactive", query = "SELECT r FROM Recruiter r WHERE r.isactive = :isactive"),
+    @NamedQuery(name = "Recruiter.findByLastname", query = "SELECT r FROM Recruiter r WHERE r.lastname = :lastname"),
     @NamedQuery(name = "Recruiter.findByTimestamp", query = "SELECT r FROM Recruiter r WHERE r.timestamp = :timestamp")})
 public class Recruiter implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "RECRUITERID")
     private Integer recruiterid;
-    @Size(max = 250)
+    @Size(max = 255)
     @Column(name = "FIRSTNAME")
     private String firstname;
-    @Size(max = 250)
+    @Column(name = "ISACTIVE")
+    private Short isactive;
+    @Size(max = 255)
     @Column(name = "LASTNAME")
     private String lastname;
-    @Column(name = "ISACTIVE")
-    private Boolean isactive;
     @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
+    @JoinColumn(name = "RECRUITERID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Users users;
     @JoinColumn(name = "COMPANYID", referencedColumnName = "COMPANYID")
     @ManyToOne
-    private Company companyid;
-    @OneToMany(mappedBy = "recruiterid")
+    private Company company;
+    @OneToMany(mappedBy = "recruiter")
     private Collection<Job> jobCollection;
 
     public Recruiter() {
@@ -87,20 +91,20 @@ public class Recruiter implements Serializable {
         this.firstname = firstname;
     }
 
+    public Short getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(Short isactive) {
+        this.isactive = isactive;
+    }
+
     public String getLastname() {
         return lastname;
     }
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public Boolean getIsactive() {
-        return isactive;
-    }
-
-    public void setIsactive(Boolean isactive) {
-        this.isactive = isactive;
     }
 
     public Date getTimestamp() {
@@ -111,12 +115,20 @@ public class Recruiter implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Company getCompanyid() {
-        return companyid;
+    public Users getUsers() {
+        return users;
     }
 
-    public void setCompanyid(Company companyid) {
-        this.companyid = companyid;
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @XmlTransient

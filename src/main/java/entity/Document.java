@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -10,6 +11,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,13 +21,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author binod
+ * @author jayaram
  */
 @Entity
 @Table(name = "DOCUMENT")
@@ -36,17 +38,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Document.findByDocumenttype", query = "SELECT d FROM Document d WHERE d.documenttype = :documenttype"),
     @NamedQuery(name = "Document.findByTimestamp", query = "SELECT d FROM Document d WHERE d.timestamp = :timestamp")})
 public class Document implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "DOCUMENTID")
     private Integer documentid;
-    @Size(max = 500)
+    @Size(max = 255)
     @Column(name = "DOCUMENTPATH")
     private String documentpath;
-    @Size(max = 100)
+    @Size(max = 255)
     @Column(name = "DOCUMENTTYPE")
     private String documenttype;
     @Column(name = "TIMESTAMP")
@@ -54,7 +55,7 @@ public class Document implements Serializable {
     private Date timestamp;
     @JoinColumn(name = "JOBAPPLICATIONID", referencedColumnName = "JOBAPPLICATIONID")
     @ManyToOne
-    private Jobapplication jobapplicationid;
+    private Jobapplication jobapplication;
 
     public Document() {
     }
@@ -95,12 +96,12 @@ public class Document implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Jobapplication getJobapplicationid() {
-        return jobapplicationid;
+    public Jobapplication getJobapplication() {
+        return jobapplication;
     }
 
-    public void setJobapplicationid(Jobapplication jobapplicationid) {
-        this.jobapplicationid = jobapplicationid;
+    public void setJobapplication(Jobapplication jobapplication) {
+        this.jobapplication = jobapplication;
     }
 
     @Override
