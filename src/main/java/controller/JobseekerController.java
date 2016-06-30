@@ -1,4 +1,3 @@
-
 package controller;
 
 import com.sun.org.apache.xerces.internal.impl.Constants;
@@ -30,7 +29,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 import javax.transaction.SystemException;
 import javax.ws.rs.core.Response;
-import org.jcp.xml.dsig.internal.dom.Utils;
 
 @ManagedBean(name = "JobseekerController", eager = true)
 @RequestScoped
