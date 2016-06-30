@@ -5,24 +5,37 @@
  */
 package controller;
 
+import com.sun.org.apache.xerces.internal.impl.Constants;
 import ejb.JobseekerEJB;
 import entity.Jobseeker;
 import entity.Users;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import static javax.management.Query.gt;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 import javax.transaction.SystemException;
 import javax.ws.rs.core.Response;
+import org.jcp.xml.dsig.internal.dom.Utils;
 
-/**
- *
- * @author binod
- */
 @ManagedBean(name = "JobseekerController", eager = true)
 @RequestScoped
 public class JobseekerController {
@@ -56,9 +69,62 @@ public class JobseekerController {
      * *
      * adding a job seeker informations
      */
-    public void addJobSeeker(String unit, String street, String suburb, String state, String country) {
+    Part uploadedCV;
+
+    public Part getUploadedCV() {
+        return uploadedCV;
+    }
+
+    public void setUploadedCV(Part uploadedCV) {
+        this.uploadedCV = uploadedCV;
+    }
+
+    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+        List<FacesMessage> msgs = new ArrayList<FacesMessage>();
+        Part file = (Part) value;
+        if (file != null) {
+            if (!"application/msword".equals(file.getContentType())) {
+                msgs.add(new FacesMessage("not a word file"));
+            }
+        }
+
+    }
+
+    public void addJobSeeker(String unit, String street, String suburb, String state, String country) throws FileNotFoundException, IOException {
+
+        Part uploadedFile = getUploadedCV();
+        if (uploadedFile != null) {
+            String filePath = "e:\\" + user.getEmail() + "\\";
+            new File(filePath).mkdir();
+            final Path destination = Paths.get(filePath + getSubmittedFileName(uploadedFile));
+
+            //When using servlet 3.1
+            //final Path destination = Paths.get("c:/temp/"+ FilenameUtils.getName(uploadedFile.getSubmittedFileName()));
+            InputStream bytes = null;
+
+            bytes = uploadedFile.getInputStream();  //
+
+            //Copies bytes to destination.
+            Files.copy(bytes, destination);
+            jobseeker.setCvpath(destination.toString());
+
+        }
         jobseeker.setAddress(unit + "," + street + "," + suburb + "," + state + "," + country);
         jobseekerEJB.addJobseekerInfo(jobseeker, user);
+    }
+
+    //code to get the submitted file name from the file part header. 
+    public static String getSubmittedFileName(Part filePart) {
+        String header = filePart.getHeader("content-disposition");
+        if (header == null) {
+            return null;
+        }
+        for (String headerPart : header.split(";")) {
+            if (headerPart.trim().startsWith("filename")) {
+                return headerPart.substring(headerPart.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 
     public String showAddress(String address) {
@@ -68,11 +134,6 @@ public class JobseekerController {
         }
         return addressinfo[0] + " " + addressinfo[1];
 
-    }
-
-    public void uploadFile() {
-    
-    
     }
 
     /**
