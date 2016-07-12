@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Usertype implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "USERTYPEID")
     private Integer usertypeid;

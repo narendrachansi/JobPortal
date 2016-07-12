@@ -1,5 +1,4 @@
 package controller;
-
 import com.sun.org.apache.xerces.internal.impl.Constants;
 import ejb.JobseekerEJB;
 import entity.Jobseeker;
@@ -10,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,6 +60,10 @@ public class JobseekerController {
         this.jobseeker = jobseeker;
     }
 
+    public void getPath() throws URISyntaxException, IOException {
+        File currentDirectory = new File(new File(".").getAbsolutePath());
+        String path=currentDirectory.getCanonicalPath();
+    }
     /**
      * *
      * adding a job seeker informations
@@ -91,11 +96,9 @@ public class JobseekerController {
             String filePath = "e:\\" + user.getEmail() + "\\";
             new File(filePath).mkdir();
             final Path destination = Paths.get(filePath + getSubmittedFileName(uploadedFile));
-
             //When using servlet 3.1
             //final Path destination = Paths.get("c:/temp/"+ FilenameUtils.getName(uploadedFile.getSubmittedFileName()));
             InputStream bytes = null;
-
             bytes = uploadedFile.getInputStream();  //
 
             //Copies bytes to destination.

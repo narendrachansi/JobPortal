@@ -12,6 +12,10 @@
         <h:link outcome="/jobseeker/create" value="Register Jobseeker"/>
         <br />
          <h:link outcome="/jobseeker/list" value="List Jobseekers" />
+         <br />
+         <h:link outcome="login" value="Log In" />
+         
+         <h:form><h:commandLink action="#{JobseekerController.getPath()}" value="Get Path"/></h:form>
       
     </h:body>
 

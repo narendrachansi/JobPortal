@@ -24,9 +24,10 @@ public class JobseekerEJB {
     @PersistenceContext(unitName = "JobPortalPU")
     private EntityManager em;
     
-    public void addJobseekerInfo(Jobseeker jobseeker,Users user){       
-       em.persist(user);     
-       // it sets the userid of persisted user into the jobseeker. Hence, maintains the referential integrity and transaction 
+    public void addJobseekerInfo(Jobseeker jobseeker,Users user){  
+       
+       em.persist(user);
+       jobseeker.setJobseekerid(user.getUserid());
        jobseeker.setUsers(user);
        em.persist(jobseeker);
     }
