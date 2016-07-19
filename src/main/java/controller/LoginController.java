@@ -6,20 +6,25 @@
 package controller;
 
 import ejb.LoginEJB;
+import entity.Jobseeker;
 import entity.Users;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author SYSTEM
  */
 @ManagedBean(name = "LoginController", eager = true)
-@RequestScoped
+@SessionScoped
 public class LoginController {
 
     public LoginController() {
@@ -47,7 +52,7 @@ public class LoginController {
 
     public String loginAuthentication() {
         Users user = loginEJB.findUser(username, password);
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
 
         if (user == null) {
@@ -56,13 +61,21 @@ public class LoginController {
             password = null;
             return null;
         } else {
-            context.getExternalContext().getSessionMap().put("user", user);
-            return "index.xhtml";
+            Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+            //context.getExternalContext().getSessionMap().put("user", user);
+            sessionMap.put("user", user);
+        
+            if (user.getJobseeker() != null) {
+                return "/jobseeker/profile";
+            }
+            return "/recruiter/profile";
         }
     }
-
+    
     public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("user");
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "index?faces-redirect=true";
+        return "/index?faces-redirect=true";
     }
+
 }

@@ -1,4 +1,5 @@
 package controller;
+
 import com.sun.org.apache.xerces.internal.impl.Constants;
 import ejb.JobseekerEJB;
 import entity.Jobseeker;
@@ -14,10 +15,12 @@ import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -27,6 +30,8 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import static javax.management.Query.gt;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.transaction.SystemException;
 import javax.ws.rs.core.Response;
@@ -40,6 +45,53 @@ public class JobseekerController {
     private Jobseeker jobseeker = new Jobseeker();
 
     private Users user = new Users();
+    
+    String unit;
+    String street;
+    String suburb;
+    String state;
+    String country;
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getSuburb() {
+        return suburb;
+    }
+
+    public void setSuburb(String suburb) {
+        this.suburb = suburb;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
 
     public JobseekerController() {
     }
@@ -62,7 +114,7 @@ public class JobseekerController {
 
     public void getPath() throws URISyntaxException, IOException {
         File currentDirectory = new File(new File(".").getAbsolutePath());
-        String path=currentDirectory.getCanonicalPath();
+        String path = currentDirectory.getCanonicalPath();
     }
     /**
      * *
@@ -125,11 +177,15 @@ public class JobseekerController {
     }
 
     public String showAddress(String address) {
-        String addressinfo[] = new String[4];
-        for (int i = 0; i <= addressinfo.length; i++) {
-            addressinfo = address.split(",");
+
+        int size = address.split(",").length;
+        String addressinfo[] = new String[size];
+        addressinfo = address.split(",");
+        address = "";
+        for (String add : addressinfo) {
+            address += add + " ";
         }
-        return addressinfo[0] + " " + addressinfo[1];
+        return address.trim();
 
     }
 
@@ -139,8 +195,21 @@ public class JobseekerController {
      */
     public String editJobseeker(Jobseeker jobseeker) {
         //jobseekerEJB.editJobseeker(jobseeker);
+        splitAddress(jobseeker);
         setJobseeker(jobseeker);
         return "edit.xhtml";
+    }
+
+    public void splitAddress(Jobseeker jobseeker) {
+        String address=jobseeker.getAddress();
+        int size = address.split(",").length;
+        String addressinfo[] = new String[size];
+        addressinfo = address.split(","); 
+        setUnit(addressinfo[0]);
+        setStreet(addressinfo[1]);
+        setSuburb(addressinfo[2]);
+        setState(addressinfo[3]);
+        setCountry(addressinfo[4]);
     }
 
     /**
@@ -149,12 +218,47 @@ public class JobseekerController {
      *
      * @return
      */
-    public String updateJobseeker() {
+    public String updateJobseeker() throws IOException {
         FacesContext fc = FacesContext.getCurrentInstance();
-        int id = Integer.parseInt(getIdParam(fc));
-        jobseekerEJB.updateJobseeker(jobseeker, id);
+        //int id = Integer.parseInt(getIdParam(fc));
+        Jobseeker sessionJobseeker=getJobseekerFromSession();
+        jobseeker.setAddress(unit + "," + street + "," + suburb + "," + state + "," + country);
+         Part uploadedFile = getUploadedCV();
+        if (uploadedFile != null) {
+            String filePath = "e:\\" + sessionJobseeker.getUsers().getEmail() + "\\";
+            new File(filePath).mkdir();
+            final Path destination = Paths.get(filePath + getSubmittedFileName(uploadedFile));
+            //When using servlet 3.1
+            //final Path destination = Paths.get("c:/temp/"+ FilenameUtils.getName(uploadedFile.getSubmittedFileName()));
+            InputStream bytes = null;
+            bytes = uploadedFile.getInputStream();  //
+
+            //Copies bytes to destination.
+            Files.copy(bytes, destination);
+            jobseeker.setCvpath(destination.toString());
+
+        }
+        //jobseeker.setAddress(unit + "," + street + "," + suburb + "," + state + "," + country);
+        //jobseekerEJB.addJobseekerInfo(jobseeker, user);
+
+        jobseekerEJB.updateJobseeker(jobseeker, sessionJobseeker.getJobseekerid());
         return "list.xhtml";
     }
+    
+    public Jobseeker getJobseekerFromSession() {
+        
+      
+        FacesContext context = FacesContext.getCurrentInstance();
+        //context.getExternalContext().getRequestParameterMap().get("user");
+        Map<String, Object> session = context.getExternalContext().getSessionMap();
+
+        Users sessionUser = (Users) session.get("user");
+
+       
+        Jobseeker jobseeker = sessionUser.getJobseeker();
+        return jobseeker;
+    }
+
 
     /**
      * *
@@ -179,4 +283,5 @@ public class JobseekerController {
         jobseekerEJB.deleteJobseeker(jobseeker);
         return "list";
     }
+
 }

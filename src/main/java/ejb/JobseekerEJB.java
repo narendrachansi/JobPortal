@@ -39,6 +39,13 @@ public class JobseekerEJB {
     public void updateJobseeker(Jobseeker jobseeker,int id){
         Jobseeker prevJobseeker = em.find(Jobseeker.class, id);
         prevJobseeker.setFirstname(jobseeker.getFirstname());
+        prevJobseeker.setLastname(jobseeker.getLastname());
+        prevJobseeker.setAddress(jobseeker.getAddress());
+        prevJobseeker.setPhone(jobseeker.getPhone());
+        prevJobseeker.setDob(jobseeker.getDob());
+        prevJobseeker.setQualification(jobseeker.getQualification());
+        prevJobseeker.setSkills(jobseeker.getSkills());
+        
     }
     public void deleteJobseeker(Jobseeker jobseeker){
         Jobseeker jobseekerTODelete=em.merge(jobseeker);       

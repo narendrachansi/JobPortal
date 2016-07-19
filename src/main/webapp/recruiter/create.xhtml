@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Create New Recruiter</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" ></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" ></meta>
+        
+        <link href="../bootstrapsample/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+        <script src="../bootstrapsample/js/jquery.js" type="text/javascript"></script>
+        <link href="../bootstrapsample/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="../bootstrapsample/js/jquery-ui.js" type="text/javascript"></script>
+        <script src="../bootstrapsample/js/jquery.validate.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $('.datepicker').datepicker();
+                $("#form").validate({
+                    rules: {
+                        "form:firstName": {
+                            required: true
+                        },
+                        "form:lastName": {
+                            required: true
+                        },
+                        "form:email": {
+                            required: true,
+                            email: true
+                        }
+                    }
+                });
+            });
+        </script>
+
+    </head>
+
+    <h:body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h:link class="navbar-brand" outcome="/index" value="Job Portal"/>                    
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><h:link outcome="/jobseeker/create" value="Register New Jobseeker"/></li>
+                    <li><h:link outcome="/recruiter/create" value="Register New Recruiter"/></li>
+                    <li><h:link outcome="/jobseeker/list" value="List Jobseekers" /></li> 
+                    <li><h:link outcome="/login" value="Log In" /></li> 
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="bs-docs-section">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="well bs-component">
+
+                            <h:form id="form" class="form-horizontal" enctype="multipart/form-data">  
+                                <fieldset>
+                                    <legend>Recruiter Registration Form</legend>
+                                    <div class="form-group">
+
+                                        <h:outputLabel value="First Name" class="col-lg-2 control-label" />
+
+
+                                        <div class="col-lg-10">
+                                            <h:inputText id="firstName" required="true" requiredMessage="First Name is required" class="form-control" value="#{RecruiterController.recruiter.firstname}" />
+                                            <h:message for="firstName" class="alert-danger"></h:message>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h:outputLabel  value="Last Name" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText id="lastName" class="form-control" value="#{RecruiterController.recruiter.lastname}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Unit" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" binding="#{unit}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="Street" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" binding="#{street}" />
+                                        </div>
+                                    </div>   
+                                    <div class="form-group">
+                                        <h:outputLabel value="Suburb" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" binding="#{suburb}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="State" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" binding="#{state}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="Country" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" binding="#{country}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="Phone" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.company.phone}" />
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Name" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.company.name}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="UploadLogo" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputFile class="form-control" value="#{RecruiterController.uploadedLogo}"  validator="#{RecruiterController.validateLogo}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Email" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText id="userEmail" class="form-control" value="#{RecruiterController.user.email}" />
+                                        </div>
+                                    </div> 
+
+                                    <div class="form-group">
+                                        <h:outputLabel value="CompanyEmail" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText id="companyEmail" class="form-control" value="#{RecruiterController.company.email}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Password" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputSecret id="password" required="true" requiredMessage="Password is required" class="form-control" value="#{JobseekerController.user.password}" />
+
+                                            <h:message for="password" class="alert-danger"></h:message>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-2">
+                                            <button type="reset" class="btn btn-default">Cancel</button>
+                                            <h:commandButton id="save" class="btn btn-primary" action="#{RecruiterController.addRecruiter(unit.value, street.value, suburb.value, state.value, country.value)}" value="Register Jobseeker" />
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                </fieldset>
+                            </h:form>
+
+                        </div>
+
+
+                    </div>
+                </div></div>
+        </div>
+    </h:body>
+</html>
+
+

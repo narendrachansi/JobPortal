@@ -10,11 +10,10 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1" ></meta>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" ></meta>
-        <link href="../bootstrapsample/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="../bootstrapsample/css/custom.min.css" rel="stylesheet" type="text/css"/>
-
+              
         <script src="../bootstrapsample/js/jquery.js" type="text/javascript"></script>
         <link href="../bootstrapsample/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <link href="../bootstrapsample/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="../bootstrapsample/js/jquery-ui.js" type="text/javascript"></script>
         <script src="../bootstrapsample/js/jquery.validate.js" type="text/javascript"></script>
         <script type="text/javascript">
@@ -39,8 +38,20 @@
                         </script>
  
     </head>
-
     <h:body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h:link class="navbar-brand" outcome="/index" value="Job Portal"/>                    
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><h:link outcome="/jobseeker/create" value="Register New Jobseeker"/></li>
+                    <li><h:link outcome="/recruiter/create" value="Register New Recruiter"/></li>
+                    <li><h:link outcome="/jobseeker/list" value="List Jobseekers" /></li> 
+                    <li><h:link outcome="/login" value="Log In" /></li> 
+                </ul>
+            </div>
+        </nav>
         <div class="container">
             <div class="bs-docs-section">
                 <div class="row">
@@ -66,63 +77,6 @@
                                         <h:outputLabel  value="Last Name" class="col-lg-2 control-label" />         
                                         <div class="col-lg-10">
                                             <h:inputText id="lastName" class="form-control" value="#{JobseekerController.jobseeker.lastname}" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <h:outputLabel value="Unit" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" binding="#{unit}" />
-                                        </div>
-                                    </div>  
-                                    <div class="form-group">
-                                        <h:outputLabel value="Street" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" binding="#{street}" />
-                                        </div>
-                                    </div>   <div class="form-group">
-                                        <h:outputLabel value="Suburb" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" binding="#{suburb}" />
-                                        </div>
-                                    </div>   <div class="form-group">
-                                        <h:outputLabel value="State" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" binding="#{state}" />
-                                        </div>
-                                    </div>  
-                                    <div class="form-group">
-                                        <h:outputLabel value="Country" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" binding="#{country}" />
-                                        </div>
-                                    </div>  
-                                    <div class="form-group">
-                                        <h:outputLabel value="Phone" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" value="#{JobseekerController.jobseeker.phone}" />
-                                        </div>
-                                    </div> <div class="form-group">
-                                        <h:outputLabel value="DOB" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-
-                                            <h:inputText class="form-control datepicker" value="#{JobseekerController.jobseeker.dob}"> <f:convertDateTime pattern="mm/dd/yyyy" /></h:inputText>
-                                        </div>
-                                    </div> <div class="form-group">
-                                        <h:outputLabel value="Qualification" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" value="#{JobseekerController.jobseeker.qualification}" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <h:outputLabel value="Skills" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputText class="form-control" value="#{JobseekerController.jobseeker.skills}" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <h:outputLabel value="Upload CV" class="col-lg-2 control-label" />         
-                                        <div class="col-lg-10">
-                                            <h:inputFile class="form-control" value="#{JobseekerController.uploadedCV}"  validator="#{JobseekerController.validateFile}" />
                                         </div>
                                     </div>
                                     <div class="form-group">
