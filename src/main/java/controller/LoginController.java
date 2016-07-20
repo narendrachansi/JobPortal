@@ -66,9 +66,9 @@ public class LoginController {
             sessionMap.put("user", user);
         
             if (user.getJobseeker() != null) {
-                return "/jobseeker/profile";
+                return "/jobseeker/profile?faces-redirect=true";
             }
-            return "/recruiter/profile";
+            return "/recruiter/profile?faces-redirect=true";
         }
     }
     
@@ -77,5 +77,7 @@ public class LoginController {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/index?faces-redirect=true";
     }
+    
+  
 
 }

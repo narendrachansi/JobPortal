@@ -1,12 +1,72 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        This is recruiter profile
-    </h:body>
-</html>
+    
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
 
+
+    <ui:define name="content">
+        <ui:repeat value="#{RecruiterController.getRecruiterFromSession()}" var="recruiter">
+            <div class="jumbotron">
+                Welcome: <h:outputText value="#{recruiter.firstname}  #{recruiter.lastname}" />
+            </div>
+
+            <div class="row">            
+                <div class="col-lg-6">         
+                    FirstName: <h:outputText value="#{recruiter.firstname}" />     
+                </div>
+            </div>
+
+            <div class="row">            
+                <div class="col-lg-6">         
+                    Lastname: <h:outputText value="#{recruiter.lastname}" />     
+                </div>
+            </div>
+
+            <div class="row">            
+                <div class="col-lg-6">         
+                    Recruiter's Email: <h:outputText value="#{recruiter.users.email}" />     
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col-lg-6">         
+                    Company Name: <h:outputText value="#{recruiter.company.name}" />     
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col-lg-6">         
+                    Company Email: <h:outputText value="#{recruiter.company.email}" />     
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col-lg-6">         
+                    Company Phone: <h:outputText value="#{recruiter.company.phone}" />     
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    Address: <h:outputText value="#{RecruiterController.showAddress(recruiter.company.address)}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">        
+                    Upload Logo: <h:inputFile class="form-control" value="#{RecruiterController.uploadedLogo}"  validator="#{RecruiterController.validateLogo}" />
+                </div>
+            </div>                              
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h:form enctype="multipart/form-data"><h:commandLink action="#{RecruiterController.editRecruiter()}" value="EDIT"></h:commandLink></h:form>
+                </div>
+            </div>
+
+        </ui:repeat>
+
+    </ui:define>
+
+
+
+
+
+</ui:composition>

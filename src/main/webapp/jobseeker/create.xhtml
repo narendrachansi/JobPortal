@@ -1,57 +1,16 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-    
-    <head>
-        <meta charset="utf-8" />
-        <title>Create New Jobseeker</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" ></meta>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" ></meta>
-              
-        <script src="../bootstrapsample/js/jquery.js" type="text/javascript"></script>
-        <link href="../bootstrapsample/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
-        <link href="../bootstrapsample/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="../bootstrapsample/js/jquery-ui.js" type="text/javascript"></script>
-        <script src="../bootstrapsample/js/jquery.validate.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            
-            $(document).ready(function(){
-                $('.datepicker').datepicker();
-                $("#form").validate({
-                    rules: {
-                        "form:firstName": {
-                        required: true
-                        },
-                        "form:lastName": {
-                        required: true
-                        },
-                         "form:email": {
-                        required: true,
-                        email: true
-                        }
-                        }
-                });
-            });
-                        </script>
- 
-    </head>
-    <h:body>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <h:link class="navbar-brand" outcome="/index" value="Job Portal"/>                    
-                </div>
-                <ul class="nav navbar-nav">
-                    <li><h:link outcome="/jobseeker/create" value="Register New Jobseeker"/></li>
-                    <li><h:link outcome="/recruiter/create" value="Register New Recruiter"/></li>
-                    <li><h:link outcome="/jobseeker/list" value="List Jobseekers" /></li> 
-                    <li><h:link outcome="/login" value="Log In" /></li> 
-                </ul>
-            </div>
-        </nav>
+
+
+
+
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">
+
         <div class="container">
             <div class="bs-docs-section">
                 <div class="row">
@@ -97,7 +56,7 @@
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2">
                                             <button type="reset" class="btn btn-default">Cancel</button>
-                                            <h:commandButton id="save" class="btn btn-primary" action="#{JobseekerController.addJobSeeker(unit.value,street.value,suburb.value,state.value,country.value)}" value="Register Jobseeker" />
+                                            <h:commandButton id="save" class="btn btn-primary" action="#{JobseekerController.addJobSeeker()}" value="Register Jobseeker" />
                                         </div>
                                     </div>
 
@@ -112,7 +71,11 @@
 
                 </div>
             </div></div>
-    </h:body>
-</html>
+    </ui:define>
 
+
+
+
+
+</ui:composition>
 

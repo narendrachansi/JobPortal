@@ -36,6 +36,11 @@ public class JobseekerEJB {
         TypedQuery<Jobseeker> query = em.createNamedQuery("Jobseeker.findAll", Jobseeker.class);
         return query.getResultList();
     }
+    
+    public Jobseeker getJobseekerById(int id){
+        TypedQuery<Jobseeker> query = em.createNamedQuery("Jobseeker.findByJobseekerid", Jobseeker.class).setParameter("id",id);
+        return query.getSingleResult();
+    }
     public void updateJobseeker(Jobseeker jobseeker,int id){
         Jobseeker prevJobseeker = em.find(Jobseeker.class, id);
         prevJobseeker.setFirstname(jobseeker.getFirstname());

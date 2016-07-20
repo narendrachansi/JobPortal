@@ -1,0 +1,116 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="content">
+         <div class="container">
+            <div class="bs-docs-section">
+                <div class="row">
+                    #{RecruiterController.showRecruiter()}
+                    <div class="col-lg-6">
+                        <div class="well bs-component">
+
+                            <h:form id="form" class="form-horizontal" enctype="multipart/form-data">  
+                                <fieldset>
+                                    <legend>Recruiter Registration Form</legend>                              
+
+                                    <div class="form-group">
+                                        <h:outputLabel value="Recruiter Firstname" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.recruiter.firstname}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Recruiter Lastname" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.recruiter.lastname}" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <h:outputLabel value="Unit" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.unit}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="Street" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.street}" />
+                                        </div>
+                                    </div>   
+                                    <div class="form-group">
+                                        <h:outputLabel value="Suburb" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.suburb}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="State" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.state}" />
+                                        </div>
+                                    </div>  
+                                    <div class="form-group">
+                                        <h:outputLabel value="Country" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.country}" />
+                                        </div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <h:outputLabel value="Company Name" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.company.name}" />
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <h:outputLabel value="Company Email" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.company.email}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputLabel value="Phone" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputText class="form-control" value="#{RecruiterController.company.phone}" />
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group">
+                                        <h:outputLabel value="UploadLogo" class="col-lg-2 control-label" />         
+                                        <div class="col-lg-10">
+                                            <h:inputFile class="form-control" value="#{RecruiterController.uploadedLogo}"  validator="#{RecruiterController.validateLogo}" />
+                                        </div>
+                                    </div>                              
+
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-2">
+                                            <button type="reset" class="btn btn-default">Cancel</button>
+                                            <h:commandButton id="save" class="btn btn-primary" action="#{RecruiterController.updateRecruiter()}" value="Save" />
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                </fieldset>
+                            </h:form>
+
+                        </div>
+
+
+                    </div>
+                </div></div>
+        </div>
+    </ui:define>
+
+
+
+
+
+</ui:composition>
+

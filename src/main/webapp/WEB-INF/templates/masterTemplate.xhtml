@@ -2,16 +2,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:head>
         <title>Job Portal</title>
-        <link href="bootstrapsample/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
-        <link href="bootstrapsample/css/half-slider.css" rel="stylesheet" type="text/css"/>
-        <script src="bootstrapsample/js/jquery-ui.js" type="text/javascript"></script>
-        <link href="bootstrapsample/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="bootstrapsample/js/jquery.js" type="text/javascript"></script>
-        <script src="bootstrapsample/js/bootstrap.min.js" type="text/javascript"></script>
+        <h:outputStylesheet name="css/jquery-ui.css" />
+        <h:outputStylesheet name="css/half-slider.css" />
+        <h:outputStylesheet name="css/bootstrap.min.css" />
+        <h:outputScript name="js/jquery.js" />
+        <h:outputScript name="js/jquery-ui.js" />
+        <h:outputScript name="js/bootstrap.min.js" />
+        <h:outputScript name="js/jquery.validate.js" />
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $('.datepicker').datepicker();
+                $("#form").validate({
+                    rules: {
+                        "form:firstName": {
+                            required: true
+                        },
+                        "form:lastName": {
+                            required: true
+                        },
+                        "form:email": {
+                            required: true,
+                            email: true
+                        }
+                    }
+                });
+            });
+        </script>
+
         <script>
             $('.carousel').carousel({
                 interval: 1000 //changes the speed
@@ -22,20 +45,31 @@
 
     <h:body>
 
+       
+
         <div id="top">
-            <ui:insert name="top">  <nav class="navbar navbar-inverse">
+
+            <ui:insert name="top">  
+                <nav class="navbar navbar-inverse">
                     <div class="container-fluid">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="#">Job Portal</a>
-                        </div>
+
                         <ul class="nav navbar-nav">
-                            <li><h:link outcome="/jobseeker/create" value="Register New Jobseeker"/></li>
-                            <li><h:link outcome="/recruiter/create" value="Register New Recruiter"/></li>
-                            <li><h:link outcome="/jobseeker/list" value="List Jobseekers" /></li> 
-                            <li><h:link outcome="login" value="Log In" /></li> 
-                        </ul>
+                            <c:choose>
+                                <c:when test="#{JobseekerController.checkUserLogin() eq true}">
+                                    <li><h:form><h:commandLink action="#{LoginController.logout()}" value="Log Out" /></h:form></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><h:link outcome="/index" value="Job Portal"/></li>
+                                    <li><h:link outcome="/jobseeker/create" value="Register New Jobseeker"/></li>
+                                    <li><h:link outcome="/recruiter/create" value="Register New Recruiter"/></li>
+                                    <li><h:link outcome="/jobseeker/list" value="List Jobseekers" /></li> 
+                                    <li><h:link outcome="/login" value="Log In" /></li> 
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>    
                     </div>
-                </nav></ui:insert>
+                </nav>
+            </ui:insert>
         </div>
         <ui:insert name="slider"></ui:insert>
         <div id="content" >
